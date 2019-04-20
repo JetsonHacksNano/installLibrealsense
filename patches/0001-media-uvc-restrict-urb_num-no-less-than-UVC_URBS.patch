@@ -1,0 +1,62 @@
+From 92e898c39b1c997fc52034fc55c0b0e681d3c6b0 Mon Sep 17 00:00:00 2001
+From: Wayne Chang <waynec@nvidia.com>
+Date: Thu, 28 Mar 2019 13:57:50 +0800
+Subject: [PATCH 1/3] media: uvc: restrict urb_num no less than UVC_URBS
+
+As dwMaxPayloadTransferSize grows nowadays, urb_num,
+dwMaxVideoFrameSize / dwMaxpaylodaTransferSize, will
+be less than UVC_URBS and hence is not sufficient for
+frame buffer.
+
+This patch will restrict urb_num to be no less than
+UVC_URBS and compute the max number of packets
+accordingly.
+
+Bug 2447901
+
+Change-Id: I275fd51adf330cfa62b1137a870d268c9daa30be
+Signed-off-by: Wayne Chang <waynec@nvidia.com>
+Reviewed-on: https://git-master.nvidia.com/r/2083579
+Reviewed-by: Henry Lin <henryl@nvidia.com>
+Reviewed-by: BH Hsieh <bhsieh@nvidia.com>
+Reviewed-by: Ashutosh Jha <ajha@nvidia.com>
+Reviewed-by: mobile promotions <svcmobile_promotions@nvidia.com>
+Reviewed-on: https://git-master.nvidia.com/r/2086304
+Reviewed-by: Automatic_Commit_Validation_User
+GVS: Gerrit_Virtual_Submit
+Tested-by: mobile promotions <svcmobile_promotions@nvidia.com>
+---
+ drivers/media/usb/uvc/uvc_video.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 1aa2579..39e5855 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -3,7 +3,7 @@
+  *
+  *      Copyright (C) 2005-2010
+  *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+- *      Copyright (C) 2016-2017, NVIDIA Corporation.  All rights reserved.
++ *      Copyright (C) 2016-2019, NVIDIA Corporation.  All rights reserved.
+  *
+  *      This program is free software; you can redistribute it and/or modify
+  *      it under the terms of the GNU General Public License as published by
+@@ -1630,6 +1630,14 @@ static int uvc_init_video_bulk(struct uvc_streaming *stream,
+ 	 */
+ 	stream->urb_max_packets = DIV_ROUND_UP(size, psize);
+ 	stream->urb_num = stream->ctrl.dwMaxVideoFrameSize / size + 1;
++
++	if (stream->urb_num < UVC_URBS) {
++		stream->urb_max_packets =
++			DIV_ROUND_UP(stream->ctrl.dwMaxVideoFrameSize,
++				psize) / UVC_URBS + 1;
++		stream->urb_num = UVC_URBS;
++	}
++
+ 	npackets = uvc_alloc_urb_buffers(stream, size, psize, gfp_flags);
+ 	if (npackets == 0)
+ 		return -ENOMEM;
+-- 
+2.7.4
+
