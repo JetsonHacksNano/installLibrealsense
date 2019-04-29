@@ -9,6 +9,7 @@
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
 LIBREALSENSE_VERSION=v2.20.0
 INSTALL_DIR=$PWD
+NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
 
 BUILD_CMAKE=true
@@ -113,6 +114,7 @@ cd build
 echo "${green}Configuring Make system${reset}"
 # Use the CMake version that we built, must be > 3.8
 # Build with CUDA (default), the CUDA flag is USE_CUDA, ie -DUSE_CUDA=true
+export CUDACXX=$NVCC_PATH
 ${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA=true
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
