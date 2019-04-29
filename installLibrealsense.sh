@@ -3,6 +3,8 @@
 # Copyright (c) 2016-19 Jetsonhacks 
 # MIT License
 
+# Jetson Nano; L4T 32.1.0
+
 # librealsense requires CMake 3.13+ to build with CUDA 10; the repositories hold earlier version
 # In this script, we build 3.14 but do not install it
 
@@ -11,7 +13,7 @@ LIBREALSENSE_VERSION=v2.20.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
-
+USE_CUDA=true
 BUILD_CMAKE=true
 
 function usage
@@ -35,6 +37,10 @@ while [ "$1" != "" ]; do
     esac
     shift
 done
+
+if [ "$USE_CUDA" = false ] ; then
+   BUILD_CMAKE=false
+fi
 
 red=`tput setaf 1`
 green=`tput setaf 2`
@@ -115,7 +121,7 @@ echo "${green}Configuring Make system${reset}"
 # Use the CMake version that we built, must be > 3.8
 # Build with CUDA (default), the CUDA flag is USE_CUDA, ie -DUSE_CUDA=true
 export CUDACXX=$NVCC_PATH
-${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA=true
+${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA"
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
 echo "${green}Building librealsense, headers, tools and demos${reset}"
