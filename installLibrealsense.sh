@@ -20,14 +20,16 @@ function usage
 {
     echo "usage: ./installLibrealsense.sh [[-c ] | [-h]]"
     echo "-n | --no_cmake   Do not build CMake 3.11"
+    echo "-w | --build_no_cuda  Build Without CUDA"
     echo "-h | --help  This message"
 }
 
 # Iterate through command line inputs
 while [ "$1" != "" ]; do
     case $1 in
-        -n | --no_cmake )      shift
-				BUILD_CMAKE=false
+        -n | --no_cmake )       BUILD_CMAKE=false
+                                ;;
+        -w | --build_no_cuda )  USE_CUDA=false
                                 ;;
         -h | --help )           usage
                                 exit
@@ -41,6 +43,9 @@ done
 if [ "$USE_CUDA" = false ] ; then
    BUILD_CMAKE=false
 fi
+
+echo "Build with CUDA: "$USE_CUDA
+echo "Build CMake: "$BUILD_CMAKE
 
 red=`tput setaf 1`
 green=`tput setaf 2`
