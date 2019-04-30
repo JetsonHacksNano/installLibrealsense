@@ -64,7 +64,7 @@ You will need either to:
 
 * Modify the script to 'make' with only 1 processor
 
-<h4>patchUbuntu.sh</4>
+<h4>patchUbuntu.sh</h4>
 
 patchUbuntu will patch all of the needed modules for librealsense, build the modules, and then install the modules. The kernel Image is then built and installed in /boot/Image.
 
