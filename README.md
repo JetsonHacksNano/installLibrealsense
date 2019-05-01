@@ -30,7 +30,7 @@ $ ./installLibrealsense.sh
 <em><b>Note:</b> If you are using a RealSense T265 exclusively, this is the only installation necessary. You do not need to patch the modules and kernels as noted below.</em>
 
 <h3>patchUbuntu.sh</h3>
-The patchUbuntu.sh patches kernel modules and installs them to support the RealSense cameras. These patches include adding the different image formats to the uvcvideo module, support for proper time stamp reporting, and HID interface for the D435i. In addition, a Nano specific patch is added addressing a USB throughput issue. After updating and installting the modules, the script rebuilds the kernel and install it.
+The patchUbuntu.sh patches kernel modules and installs them to support the RealSense cameras. These patches include adding the different image formats to the uvcvideo module, support for proper time stamp reporting, and HID interface for the D435i. In addition, a Nano specific patch is added addressing a USB throughput issue. After updating and installing the modules, the script rebuilds the kernel and installs it.
 
 If you run one of the Depth cameras without addressing these issues, you will see the issues listed on the console about not being able to recognize the image formats, along with time stamp issues and so on. You will also notice that the system log is flooded with OOPs related to not being able to recognize the camera formats from the kernel. 
 
@@ -41,7 +41,9 @@ If you run one of the Depth cameras without addressing these issues, you will se
 <h4>April 30, 2019</h4>
 <h4>installLibrealsense.sh</h4>
 
-* Add CLI argument build_no_cuda ; script defaults to build with CUDA. Saves considerable amount of compilation because CMake does not need to be built from source.
+* Switch CLI argument to build_with_cuda ; Build with CUDA takes a lot more time because CMake needs to be rebuilt. Default is to build without CUDA support
+
+* <em>previous commit</em> Add CLI argument build_no_cuda ; script defaults to build with CUDA. 
 
 * D435i is not recognized by RealSense applications, but shows up in Cheese webcam viewer.
 
