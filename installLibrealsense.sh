@@ -9,18 +9,19 @@
 # In this script, we build 3.14 but do not install it
 
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.20.0
+LIBREALSENSE_VERSION=v2.21.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
-USE_CUDA=true
+# You don't need to build CMake unless you are using CUDA
+USE_CUDA=false
 BUILD_CMAKE=true
 
 function usage
 {
     echo "usage: ./installLibrealsense.sh [[-c ] | [-h]]"
     echo "-n | --no_cmake   Do not build CMake 3.11"
-    echo "-w | --build_no_cuda  Build Without CUDA"
+    echo "-c | --build_with_cuda  Build with CUDA"
     echo "-h | --help  This message"
 }
 
@@ -29,7 +30,7 @@ while [ "$1" != "" ]; do
     case $1 in
         -n | --no_cmake )       BUILD_CMAKE=false
                                 ;;
-        -w | --build_no_cuda )  USE_CUDA=false
+        -c | --build_with_cuda )  USE_CUDA=true
                                 ;;
         -h | --help )           usage
                                 exit
@@ -126,7 +127,7 @@ echo "${green}Configuring Make system${reset}"
 # Use the CMake version that we built, must be > 3.8
 # Build with CUDA (default), the CUDA flag is USE_CUDA, ie -DUSE_CUDA=true
 export CUDACXX=$NVCC_PATH
-${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA"
+${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
 echo "${green}Building librealsense, headers, tools and demos${reset}"
