@@ -127,6 +127,8 @@ echo "${green}Configuring Make system${reset}"
 # Use the CMake version that we built, must be > 3.8
 # Build with CUDA (default), the CUDA flag is USE_CUDA, ie -DUSE_CUDA=true
 export CUDACXX=$NVCC_PATH
+export PATH=${PATH}:/usr/local/cuda/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 
 if [ "$USE_CUDA" = true ] ; then
    ${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release
