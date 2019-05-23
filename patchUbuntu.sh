@@ -145,13 +145,14 @@ sudo ./scripts/patchKernel.sh
 
 echo "Making kernel"
 cd $BUILD_REPOSITORY
-./makeModules.sh
-echo "Modules now patched and installed"
 if [ $BUILD_KERNEL ] ; then
    ./makeKernel.sh
    ./copyImage.sh
    echo "Kernel image built, and has been copied to /boot/Image."
 fi
+./makeModules.sh
+echo "Modules now patched and installed"
+
 echo "Reboot for changes to take effect"
 
 

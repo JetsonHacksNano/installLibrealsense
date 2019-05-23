@@ -47,10 +47,18 @@ If you run one of the Depth cameras without addressing these issues, you will se
 
 <h4>May, 2019</h4>
 
+* Release v0.8
+* Jetson Nano
+* L4T 32.1.0, Kernel 4.9-140
+* D435i issue resolved - Make kernel image before modules 
+
+
+<h4>May 6, 2019</h4>
+
 * Initial Release v0.7
 * Jetson Nano
 * L4T 32.1.0, Kernel 4.9-140
-* D435i issue resolved
+* D435i issue addressed
 
 <h4>April 30, 2019</h4>
 <h4>installLibrealsense.sh</h4>
