@@ -9,7 +9,7 @@
 # In this script, we build 3.14 but do not install it
 
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.21.0
+LIBREALSENSE_VERSION=v2.22.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
