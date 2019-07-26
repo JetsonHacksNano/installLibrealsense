@@ -50,6 +50,7 @@ If you run one of the Depth cameras without addressing these issues, you will se
 * Release vL4T32.2
 * Jetson Nano
 * L4T 32.2, Kernel 4.9, JetPack 4.2.1
+* Add Python 3 support
 * UVC_MAX_STATUS changed in Kernel to 1024, remove Patch 
 * Remove URBS UVC patch
 
