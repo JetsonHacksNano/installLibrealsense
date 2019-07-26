@@ -53,6 +53,7 @@ If you run one of the Depth cameras without addressing these issues, you will se
 * Add Python 3 support
 * UVC_MAX_STATUS changed in Kernel to 1024, remove Patch 
 * Remove URBS UVC patch
+* librealsense version v2.24.0
 
 <h4>June, 2019</h4>
 
