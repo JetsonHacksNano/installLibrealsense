@@ -130,7 +130,7 @@ export CUDACXX=$NVCC_PATH
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 
-if [ "$USE_CUDA" = true ] ; then
+if [ "$BUILD_CMAKE" = true ] ; then
    ${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
 else
    /usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
@@ -162,6 +162,14 @@ else
 fi
 echo "${green}Installing librealsense, headers, tools and demos${reset}"
 sudo make install
+  
+if grep [ -Fxq 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' ~/.bashrc ] ; then
+    echo "PYTHONPATH already exists in .bashrc file"
+else
+   echo 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' >> ~/.bashrc 
+   echo "PYTHONPATH added to ~/.bashrc. Pyhon wrapper is now available using import pyrealsense2"
+fi
+
 echo "${green}Library Installed${reset}"
 echo " "
 echo " -----------------------------------------"
