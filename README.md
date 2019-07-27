@@ -2,22 +2,20 @@
 Build and install Intel's librealsense for the NVIDIA Jetson Nano Developer Kit
 
 <h3>installLibrealsense.sh</h3>
-These scripts are for installing the Intel RealSense SDK librealsense on the NVIDIA Jetson Nano Developer Kit. The current release of librealsense (V2) supports the D415, D435, D435i and T265 cameras. All of the cameras need to have librealsense installed. CUDA support is disabled by default. The CLI flag ( -w | --build_with_cuda ) will build with CUDA support. 
+These scripts are for installing the Intel RealSense SDK librealsense on the NVIDIA Jetson Nano Developer Kit. The current release of librealsense (V2) supports the D415, D435, D435i and T265 cameras. All of the cameras need to have librealsense installed. CUDA support is enabled by default. 
 
+Please note that we recommend a SD card size of at least 32GB, 64GB preferred. You can remove the sources and build artifacts of the kernel, see the 'buildKernelAndModules' directory.
 
-Building without CUDA support will take signficantly less time. Because the Jetson Nano uses CUDA 10, it requires CMake version 3.11+. The version in the Ubuntu repository does not meet the requirement. The installLibrealsense script will build CMake if a CUDA build is indicated, and use that version to configure the librealsense build.
 
 ```
-During compilation, the script will run out of memory on the Nano
+During compilation, the installLibrealsense script will run out of memory on the Nano
 You will need either to:
 * Enable swap memory
 OR:
 * Modify the script to 'make' with only 1 processor
 ```
 
-The scripts default to building with CUDA support.
-
-To build and install librealsense WITHOUT CUDA support:
+The scripts default to building with CUDA support. To build and install librealsense WITHOUT CUDA support:
 
 ```
 $ ./installLibrealsense.sh -nc
