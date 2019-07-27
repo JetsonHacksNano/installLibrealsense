@@ -15,16 +15,13 @@ OR:
 * Modify the script to 'make' with only 1 processor
 ```
 
-If you are using the T265 Tracking Camera exclusively, it is worth considering compiling without CUDA support. The librealsense CUDA support is for the Depth cameras. To build and installLibrealsense with CUDA support:
-
-```
-$ ./installLibrealsense.sh --build_with_cuda
+The scripts default to building with CUDA support.
 ```
 
 To build and install librealsense WITHOUT CUDA support:
 
 ```
-$ ./installLibrealsense.sh
+$ ./installLibrealsense.sh -nc
 ```
 
 <em><b>Note:</b> If you are using a RealSense T265 exclusively, this is the only installation necessary. You do not need to patch the modules and kernels as noted below.</em>
