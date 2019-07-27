@@ -3,34 +3,27 @@
 # Copyright (c) 2016-19 Jetsonhacks 
 # MIT License
 
-# Jetson Nano; L4T 32.1.0
-
-# librealsense requires CMake 3.13+ to build with CUDA 10; the repositories hold earlier version
-# In this script, we build 3.14 but do not install it
+# Jetson Nano; L4T 32.2
 
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.22.0
+LIBREALSENSE_VERSION=v2.24.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
 # You don't need to build CMake unless you are using CUDA
-USE_CUDA=false
-BUILD_CMAKE=true
+USE_CUDA=true
 
 function usage
 {
     echo "usage: ./installLibrealsense.sh [[-c ] | [-h]]"
-    echo "-n | --no_cmake   Do not build CMake 3.11"
-    echo "-c | --build_with_cuda  Build with CUDA"
+    echo "-nc | --build_with_cuda  Build no CUDA (Defaults to with CUDA)"
     echo "-h | --help  This message"
 }
 
 # Iterate through command line inputs
 while [ "$1" != "" ]; do
     case $1 in
-        -n | --no_cmake )       BUILD_CMAKE=false
-                                ;;
-        -c | --build_with_cuda )  USE_CUDA=true
+        -nc | --build_no_cuda )  USE_CUDA=false
                                 ;;
         -h | --help )           usage
                                 exit
@@ -41,12 +34,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-if [ "$USE_CUDA" = false ] ; then
-   BUILD_CMAKE=false
-fi
-
 echo "Build with CUDA: "$USE_CUDA
-echo "Build CMake: "$BUILD_CMAKE
 
 red=`tput setaf 1`
 green=`tput setaf 2`
@@ -91,17 +79,6 @@ git checkout $LIBREALSENSE_VERSION
 cd $INSTALL_DIR
 sudo ./scripts/installDependencies.sh
 
-# Do we need to install CMake?
-if [ "$BUILD_CMAKE" = true ] ; then
-  echo "Building CMake"
-  ./scripts/buildCMake.sh
-  CMAKE_BUILD_OK=$?
-  if [ $CMAKE_BUILD_OK -ne 0 ] ; then
-    echo "CMake build failure. Exiting"
-    exit 1
-  fi
-fi
-
 cd $LIBREALSENSE_DIRECTORY
 git checkout $LIBREALSENSE_VERSION
 
@@ -130,11 +107,7 @@ export CUDACXX=$NVCC_PATH
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 
-if [ "$USE_CUDA" = true ] ; then
-   ${HOME}/CMake/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release
-else
-   /usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release
-fi
+/usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
 
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
@@ -162,6 +135,14 @@ else
 fi
 echo "${green}Installing librealsense, headers, tools and demos${reset}"
 sudo make install
+  
+if grep [ -Fxq 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' ~/.bashrc ] ; then
+    echo "PYTHONPATH already exists in .bashrc file"
+else
+   echo 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' >> ~/.bashrc 
+   echo "PYTHONPATH added to ~/.bashrc. Pyhon wrapper is now available using import pyrealsense2"
+fi
+
 echo "${green}Library Installed${reset}"
 echo " "
 echo " -----------------------------------------"
