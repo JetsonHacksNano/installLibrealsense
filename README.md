@@ -16,7 +16,6 @@ OR:
 ```
 
 The scripts default to building with CUDA support.
-```
 
 To build and install librealsense WITHOUT CUDA support:
 
