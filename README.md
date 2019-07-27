@@ -53,7 +53,7 @@ If you run one of the Depth cameras without addressing these issues, you will se
 
 <h4>June, 2019</h4>
 
-* Release v0.9L4T32.1
+* Release vL4T32.1
 * Jetson Nano
 * L4T 32.1.0, Kernel 4.9-140
 * Bump librealsense version to v2.22.0 for compatibility with realsense-ros
