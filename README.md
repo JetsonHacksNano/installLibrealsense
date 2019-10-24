@@ -39,6 +39,14 @@ If you run one of the Depth cameras without addressing these issues, you will se
 
 <h2>Notes</h2>
 
+<h4>October, 2019</h4>
+
+* Release vL4T32.2.1
+* Jetson Nano
+* L4T 32.2.1, JetPack 4.2.2, Kernel 4.9 
+* librealsense version v2.25.0 (matches realsense-ros package)
+
+
 <h4>July, 2019</h4>
 
 * Release vL4T32.2

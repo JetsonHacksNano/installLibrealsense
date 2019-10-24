@@ -27,10 +27,6 @@ LOCAL_VERSION=${KERNEL_VERSION#$"4.9.140"}
 # HID_SENSOR_ACCEL_3D - HID Accelerometers 3D (NEW)
 # HID_SENSOR_GYRO_3D - HID Gyroscope 3D (NEW)
 
-cp /lib/firmware/tegra21x_xusb_firmware ./firmware/
-
-FIRMWARE_NAME="tegra21x_xusb_firmware"
-
 bash scripts/config --file .config \
 	--set-str LOCALVERSION $LOCAL_VERSION \
         --module HID_SENSOR_IIO_COMMON \

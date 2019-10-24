@@ -4,13 +4,14 @@
 # Build kernel to include tegra usb firmware
 
 JETSON_MODEL="NVIDIA Jetson Nano Developer Kit"
-L4T_TARGET="32.2"
+L4T_TARGET="32.2.1"
+L4T_VERSION=vL4T$L4T_TARGET
 SOURCE_TARGET="/usr/src"
 KERNEL_RELEASE="4.9"
 BUILD_REPOSITORY="$HOME/buildKernelAndModules"
 INSTALL_DIR=$PWD
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.24.0
+LIBREALSENSE_VERSION=v2.25.0
 # Build the kernel and install it
 BUILD_KERNEL=true
 
@@ -19,6 +20,8 @@ BUILD_KERNEL=true
 JETSON_BOARD=$(tr -d '\0' </proc/device-tree/model)
 
 JETSON_L4T=""
+# Starting with L4T 32.2, the recommended way to find the L4T Release Number
+# is to use dpkg
 # Starting with L4T 32.2, the recommended way to find the L4T Release Number
 # is to use dpkg
 function check_L4T_version()
@@ -32,19 +35,16 @@ function check_L4T_version()
 		echo "$LOG Reading L4T version from \"dpkg-query --show nvidia-l4t-core\""
 
 		JETSON_L4T_STRING=$(dpkg-query --showformat='${Version}' --show nvidia-l4t-core)
-		local JETSON_L4T_ARRAY=(${JETSON_L4T_STRING//./ })	
-
-		#echo ${JETSON_L4T_ARRAY[@]}
-		#echo ${#JETSON_L4T_ARRAY[@]}
-
-		JETSON_L4T_RELEASE=${JETSON_L4T_ARRAY[0]}
-		JETSON_L4T_REVISION=${JETSON_L4T_ARRAY[1]}
-	fi
-
-	JETSON_L4T_VERSION="$JETSON_L4T_RELEASE.$JETSON_L4T_REVISION"
+                # For example: 32.2.1-20190812212815
+                JETSON_L4T_VERSION=$(echo $JETSON_L4T_STRING | cut -d '-' -f 1)
+                JETSON_L4T_RELEASE=$(echo $JETSON_L4T_VERSION | cut -d '.' -f 1)
+                # # operator remove prefix in string operations in bash script. Don't forget . eg "32."
+                JETSON_L4T_REVISION=${JETSON_L4T_VERSION#$JETSON_L4T_RELEASE.}
+        fi
 	echo "$LOG Jetson BSP Version:  L4T R$JETSON_L4T_VERSION"
 
 }
+
 
 echo "Getting L4T Version"
 check_L4T_version
@@ -98,6 +98,8 @@ if [ -d "$BUILD_REPOSITORY" ] ; then
 else
    echo "Installing buildModulesAndKernel"
    git clone https://github.com/jetsonhacksnano/buildKernelAndModules "$BUILD_REPOSITORY"
+   cd $BUILD_REPOSITORY
+   git checkout $L4T_VERSION
 fi
 
 # Check to see if source tree is already installed

@@ -3,14 +3,13 @@
 # Copyright (c) 2016-19 Jetsonhacks 
 # MIT License
 
-# Jetson Nano; L4T 32.2
+# Jetson Nano; L4T 32.2.1
 
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.24.0
+LIBREALSENSE_VERSION=v2.25.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
-# You don't need to build CMake unless you are using CUDA
 USE_CUDA=true
 
 function usage
@@ -101,7 +100,6 @@ mkdir build
 cd build
 # Build examples, including graphical ones
 echo "${green}Configuring Make system${reset}"
-# Use the CMake version that we built, must be > 3.8
 # Build with CUDA (default), the CUDA flag is USE_CUDA, ie -DUSE_CUDA=true
 export CUDACXX=$NVCC_PATH
 export PATH=${PATH}:/usr/local/cuda/bin
