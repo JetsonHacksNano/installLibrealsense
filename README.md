@@ -13,8 +13,8 @@ $ ./installLibrealsense.sh
 
 <h3>buildLibrealsense.sh</h3>
 This script will build librealsense from source and install it on the system. It is recommended to install from Debian repository as described above. However, if you need to compile from source, you will find this script useful.
-
-Note: The build uses libuvc. You will not have to rebuild the kernel or modules in order to use this build.
+<br>
+<em><b>Note:</b> The build uses libuvc. You will not have to rebuild the kernel or modules in order to use this build.</em>
 
 <h2>Notes</h2>
 
@@ -23,7 +23,7 @@ Note: The build uses libuvc. You will not have to rebuild the kernel or modules 
 * Release vL4T32.2.1a
 * Jetson Nano
 * L4T 32.2.1, JetPack 4.2.2, Kernel 4.9
-* librealense version v2.30.0
+* librealsense version v2.30.0
 
 <h4>October, 2019</h4>
 
