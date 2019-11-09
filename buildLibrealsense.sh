@@ -65,8 +65,7 @@ if [ ! $VERSION_TAG  ] ; then
   echo ""
   echo "The installed version of librealsense is not current enough for these scripts."
   echo "This script needs librealsense tag version: "$LIBREALSENSE_VERSION "but it is not available."
-  echo "This script patches librealsense, the patches apply on the expected version."
-  echo "Please upgrade librealsense before attempting to install again."
+  echo "Please upgrade librealsense or remove the librealsense folder before attempting to install again."
   echo ""
   exit 1
 fi
@@ -120,11 +119,11 @@ fi
 echo "${green}Installing librealsense, headers, tools and demos${reset}"
 sudo make install
   
-if grep [ -Fxq 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' ~/.bashrc ] ; then
+if  grep -Fxq 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' ~/.bashrc ; then
     echo "PYTHONPATH already exists in .bashrc file"
 else
    echo 'export PYTHONPATH=$PYTHONPATH:/usr/local/lib' >> ~/.bashrc 
-   echo "PYTHONPATH added to ~/.bashrc. Pyhon wrapper is now available using import pyrealsense2"
+   echo "PYTHONPATH added to ~/.bashrc. Pyhon wrapper is now available for importing pyrealsense2"
 fi
 
 cd $LIBREALSENSE_DIRECTORY
