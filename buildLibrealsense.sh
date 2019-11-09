@@ -127,6 +127,7 @@ else
    echo "PYTHONPATH added to ~/.bashrc. Pyhon wrapper is now available using import pyrealsense2"
 fi
 
+cd $LIBREALSENSE_DIRECTORY
 echo "${green}Applying udev rules${reset}"
 # Copy over the udev rules so that camera can be run from user space
 sudo cp config/99-realsense-libusb.rules /etc/udev/rules.d/
