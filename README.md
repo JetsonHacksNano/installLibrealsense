@@ -31,7 +31,7 @@ This script will build librealsense from source and install it on the system. It
 
 <h4>November, 2019</h4>
 
-* Release vL4T32.2.1
+* Release vL4T32.2.1a
 * Jetson Nano
 * L4T 32.2.1, JetPack 4.2.2, Kernel 4.9
 * librealsense version v2.30.0
