@@ -7,7 +7,7 @@ the D400 series depth cameras, T265 tracking camera, and the SR300 depth camera.
 
 Starting with L4T 32.2.1 (JetPack 4.2.2) on the NVIDIA Jetsons and the Intel RealSense SDK 
 version v2.23.0, it is now possible to do a simple install from a RealSense debian repository
-(i.e. apt-get install).
+(i.e. apt-get install). Previous versions of this repository require building librealsense from source, and (possibly) rebuilding the Linux kernel.
 
 The current recommendation from Intel is to use UVC for video input on the Jetson family. The
 UVC API in librealsense has been rewritten to better support this use case.
@@ -28,13 +28,17 @@ This script will build librealsense from source and install it on the system. It
 <em><b>Note:</b> The build uses libuvc. You will not have to rebuild the kernel or modules in order to use this build.</em>
 
 <h2>Notes</h2>
+If you use realsense-ros, make sure that you match the librealsense versions with the realsense-ros version requirement.
 
 <h4>November, 2019</h4>
 
-* Release vL4T32.2.1a
+* Release vL4T32.2.3
 * Jetson Nano
-* L4T 32.2.1, JetPack 4.2.2, Kernel 4.9
-* librealsense version v2.30.0
+* L4T 32.2.3, JetPack 4.2.2, Kernel 4.9.
+* Also works with L4T 32.2.1
+* Currently librealsense version v2.31.0
+* Issue: L4T 32.2.3 has issues with using RealSense cameras D435i and T265 simultaneously. Under L4T 32.2.1 appears to work correctly.
+* Requires realsense-ros version 2.2.11 
 
 <h4>October, 2019</h4>
 
