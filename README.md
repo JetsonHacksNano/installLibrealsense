@@ -1,43 +1,49 @@
 # installLibrealsense
-Build and install Intel's librealsense for the NVIDIA Jetson Nano Developer Kit
+Build and install scripts for Intel's librealsense for the NVIDIA Jetson Nano Developer Kit
+
+The Intel® RealSense™ SDK is here: https://github.com/IntelRealSense/librealsense
+The SDK library name is librealsense. This is for version 2 of the library, which supports
+the D400 series depth cameras, T265 tracking camera, and the SR300 depth camera.
+
+Starting with L4T 32.2.1 (JetPack 4.2.2) on the NVIDIA Jetsons and the Intel RealSense SDK 
+version v2.23.0, it is now possible to do a simple install from a RealSense debian repository
+(i.e. apt-get install). Previous versions of this repository require building librealsense from source, and (possibly) rebuilding the Linux kernel.
+
+The current recommendation from Intel is to use UVC for video input on the Jetson family. The
+UVC API in librealsense has been rewritten to better support this use case.
 
 <h3>installLibrealsense.sh</h3>
-These scripts are for installing the Intel RealSense SDK librealsense on the NVIDIA Jetson Nano Developer Kit. The current release of librealsense (V2) supports the D415, D435, D435i and T265 cameras. All of the cameras need to have librealsense installed. CUDA support is enabled by default. 
-
-Please note that we recommend a SD card size of at least 32GB, 64GB preferred. You can remove the sources and build artifacts of the kernel, see the 'buildKernelAndModules' directory.
+This script will install librealsense from the Intel Librealsense Debian Repository.
 
 
 ```
-During compilation, the installLibrealsense script will run out of memory on the Nano
-You will need either to:
-* Enable swap memory
-OR:
-* Modify the script to 'make' with only 1 processor
+$ ./installLibrealsense.sh
 ```
 
-The scripts default to building with CUDA support. To build and install librealsense WITHOUT CUDA support:
+<em><b>Note:</b> You do not have to patch modules and kernels.</em>
+
+<h3>buildLibrealsense.sh</h3>
+This script will build librealsense from source and install it on the system. It is recommended to install from Debian repository as described above. However, if you need to compile from source, you will find this script useful.
 
 ```
-$ ./installLibrealsense.sh -nc
+$ ./buildLibrealsense.sh
 ```
 
-<em><b>Note:</b> If you are using a RealSense T265 exclusively, this is the only installation necessary. You do not need to patch the modules and kernels as noted below.</em>
-
-<h3>patchUbuntu.sh</h3>
-The patchUbuntu.sh patches kernel modules and installs them to support the RealSense cameras. These patches are for the Depth cameras. The patches include adding the different image formats to the uvcvideo module and timestamping. For the D435i in particular, support for HID interface for the IMU. In addition, a Nano specific patch is added addressing a USB throughput issue. After updating and installing the modules, the script rebuilds the kernel and installs it. To patch the kernel and modules, then install them:
-
-
-
-```
-$ ./patchUbuntu.sh
-```
-
-If you run one of the Depth cameras without addressing these issues, you will see the issues listed on the console about not being able to recognize the image formats, along with time stamp issues and so on. You will also notice that the system log is flooded with OOPs related to not being able to recognize the camera formats from the kernel. 
-
-<em><b>Note:</b> If you are building from a USB or some other device than the SD card, you will need to copy the Image file to the /boot directory on the SD card which you will be booting from.</em>
-
+<em><b>Note:</b> The build uses libuvc. You will not have to rebuild the kernel or modules in order to use this build.</em>
 
 <h2>Notes</h2>
+If you use realsense-ros, make sure that you match the librealsense versions with the realsense-ros version requirement.
+
+<h4>November, 2019</h4>
+
+* Release vL4T32.2.3
+* Jetson Nano
+* L4T 32.2.3, JetPack 4.2.2, Kernel 4.9.
+* Also works with L4T 32.2.1
+* Currently librealsense version v2.31.0
+* Issue: L4T 32.2.3 has issues with using RealSense cameras D435i and T265 simultaneously. Under L4T 32.2.1 appears to work correctly.
+* Requires realsense-ros version 2.2.11 
+* Now uses libuvc in buildLibrealsense, no need to recompile linux kernel/modules
 
 <h4>October, 2019</h4>
 
