@@ -24,7 +24,11 @@ $ ./installLibrealsense.sh
 
 <h3>buildLibrealsense.sh</h3>
 This script will build librealsense from source and install it on the system. It is recommended to install from Debian repository as described above. However, if you need to compile from source, you will find this script useful.
-<br>
+
+```
+$ ./buildLibrealsense.sh
+```
+
 <em><b>Note:</b> The build uses libuvc. You will not have to rebuild the kernel or modules in order to use this build.</em>
 
 <h2>Notes</h2>
@@ -39,6 +43,7 @@ If you use realsense-ros, make sure that you match the librealsense versions wit
 * Currently librealsense version v2.31.0
 * Issue: L4T 32.2.3 has issues with using RealSense cameras D435i and T265 simultaneously. Under L4T 32.2.1 appears to work correctly.
 * Requires realsense-ros version 2.2.11 
+* Now uses libuvc in buildLibrealsense, no need to recompile linux kernel/modules
 
 <h4>October, 2019</h4>
 
