@@ -41,7 +41,7 @@ If you use realsense-ros, make sure that you match the librealsense versions wit
 * L4T 32.3.1, JetPack 4.3, Kernel 4.9.
 * Also works with L4T 32.2.1 - 32.2.3
 * Current  librealsense version v2.31.0
-* Issue: There are currently issues with using RealSense cameras D435i and T265 simultaneously. Under L4T 32.2.1 appears to work correctly.
+* Fixed Issue: D435i and T265 have issues working together. Upgrading D435i firmware fixes this issue.
 * Requires realsense-ros version 2.2.11 
 * Now uses libuvc in buildLibrealsense, no need to recompile linux kernel/modules
 
