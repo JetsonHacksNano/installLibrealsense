@@ -1,6 +1,8 @@
 # installLibrealsense
 Build and install scripts for Intel's librealsense for the NVIDIA Jetson Nano Developer Kit
 
+Original article on JetsonHacks: https://wp.me/p7ZgI9-34j
+
 The Intel® RealSense™ SDK is here: https://github.com/IntelRealSense/librealsense
 The SDK library name is librealsense. This is for version 2 of the library, which supports
 the D400 series depth cameras, T265 tracking camera, and the SR300 depth camera.
