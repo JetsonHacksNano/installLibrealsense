@@ -36,6 +36,15 @@ $ ./buildLibrealsense.sh
 <h2>Notes</h2>
 If you use realsense-ros, make sure that you match the librealsense versions with the realsense-ros version requirement.
 
+
+<h4>August, 2020</h4>
+
+* Release vL4T32.4.3
+* Jetson Nano
+* L4T 32.4.3, JetPack 4.4, Kernel 4.9.
+* Current  librealsense version v2.36.0
+* Now buildLibrealsense will install bindings for Python 3
+
 <h4>December, 2019</h4>
 
 * Release vL4T32.3.1
