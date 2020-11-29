@@ -6,7 +6,7 @@
 # Jetson Nano; L4T 32.2.3
 
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.31.0
+LIBREALSENSE_VERSION=v2.40.0
 INSTALL_DIR=$PWD
 NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
 
@@ -90,7 +90,7 @@ export CUDACXX=$NVCC_PATH
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 
-/usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DFORCE_LIBUVC=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
+/usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DFORCE_LIBUVC=ON -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
 
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
