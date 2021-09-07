@@ -1,39 +1,66 @@
 #!/bin/bash
 # Builds the Intel Realsense library librealsense on a Jetson Nano Development Kit
-# Copyright (c) 2016-19 Jetsonhacks 
+# Copyright (c) 2016-21 Jetsonhacks 
 # MIT License
 
-# Jetson Nano; L4T 32.2.3
-
 LIBREALSENSE_DIRECTORY=${HOME}/librealsense
-LIBREALSENSE_VERSION=v2.31.0
 INSTALL_DIR=$PWD
-NVCC_PATH=/usr/local/cuda-10.0/bin/nvcc
+NVCC_PATH=/usr/local/cuda/bin/nvcc
 
 USE_CUDA=true
 
-function usage
+function usage ()
 {
-    echo "usage: ./buildLibrealsense.sh [[-c ] | [-h]]"
-    echo "-nc | --build_with_cuda  Build no CUDA (Defaults to with CUDA)"
-    echo "-h | --help  This message"
+    echo "Usage: ./buildLibrealsense.sh [[-c ] | [-h]]"
+    echo "-n  | --no_cuda   Build with no CUDA (Defaults to with CUDA)"
+    echo "-v  | --version   Version of librealsense to build 
+                      (defaults to latest release)"
+    echo "-h  | --help            This message"
+    exit 2
 }
 
-# Iterate through command line inputs
-while [ "$1" != "" ]; do
-    case $1 in
-        -nc | --build_no_cuda )  USE_CUDA=false
-                                ;;
-        -h | --help )           usage
-                                exit
-                                ;;
-        * )                     usage
-                                exit 1
-    esac
-    shift
+PARSED_ARGUMENTS=$(getopt -a -n buildLibrealsense.sh -o nv:h --longoptions version:,no_cuda,help -- "$@" )
+VALID_ARGUMENTS=$?
+
+if [ "$VALID_ARGUMENTS" != "0" ]; then
+   echo ""
+   usage
+fi
+
+eval set -- "$PARSED_ARGUMENTS"
+
+LIBREALSENSE_VERSION=""
+USE_CUDA=true
+
+while :
+do
+   case "$1" in
+      -n | --build_no_cuda) USE_CUDA=false   ; shift ;;
+      -v | --version )      LIBREALSENSE_VERSION="$2" ; shift 2 ;;
+      -h | --help )         usage ; shift ;;
+      # -- means the end of arguments
+      --)  shift; break ;;
+   esac
 done
 
+# From lukechilds gist discussion: https://gist.github.com/lukechilds/a83e1d7127b78fef38c2914c4ececc3c 
+# We use wget instead of curl here
+# Sample usage:
+#   VERSION_STRINGS=$(get_latest_release IntelRealSense/librealsense)
+
+function get_latest_release () {
+  # redirect wget to standard out and grep out the tag_name
+  wget -qO- https://api.github.com/repos/$1/releases/latest |
+    grep -Po '"tag_name": "\K.*?(?=")' 
+}
+
+if [[ $LIBREALSENSE_VERSION == "" ]] ; then
+   echo "Getting latest librealsense version number"
+   LIBREALSENSE_VERSION=$(get_latest_release IntelRealSense/librealsense)
+fi
+
 echo "Build with CUDA: "$USE_CUDA
+echo "Librealsense Version: $LIBREALSENSE_VERSION"
 
 red=`tput setaf 1`
 green=`tput setaf 2`
@@ -90,7 +117,7 @@ export CUDACXX=$NVCC_PATH
 export PATH=${PATH}:/usr/local/cuda/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
 
-/usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DFORCE_LIBUVC=true -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
+/usr/bin/cmake ../ -DBUILD_EXAMPLES=true -DFORCE_LIBUVC=ON -DBUILD_WITH_CUDA="$USE_CUDA" -DCMAKE_BUILD_TYPE=release -DBUILD_PYTHON_BINDINGS=bool:true
 
 # The library will be installed in /usr/local/lib, header files in /usr/local/include
 # The demos, tutorials and tests will located in /usr/local/bin.
