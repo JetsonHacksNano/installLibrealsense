@@ -11,7 +11,7 @@ USE_CUDA=true
 
 function usage ()
 {
-    echo "Usage: ./buildLibrealsense.sh [[-c ] | [-h]]"
+    echo "Usage: ./buildLibrealsense.sh [-n | -no_cuda] [-v | -version <version>] [-j | --jobs <number of jobs>] [-h | --help] "
     echo "-n  | --no_cuda   Build with no CUDA (Defaults to with CUDA)"
     echo "-v  | --version   Version of librealsense to build 
                       (defaults to latest release)"
